@@ -64,8 +64,22 @@ function concatDataValues(profile, bankdetails) {
 
 // Create a user
 const register = async (req, res) => {
+  const checkuser = await User.findOne({
+    where: {
+      email: req.body.email
+    }
+  });
+
+  // console.log(checkuser)
+  if (checkuser) {
+    return res.status(404).send({ message: "User Already exist." });
+  }
+
+
+  const clinic_id = generateString();
+
   const user = {
-    clinicid: tokgen2.generate(),
+    clinicid: clinic_id,
     clinicName: req.body.name,
     email: req.body.email,
     address: req.body.address,
@@ -77,11 +91,12 @@ const register = async (req, res) => {
   try {
     const newUser = await db.user.create(user);
 
-    const profile = await db.profile.create(user);
+    const newprofile = await db.profile.create(user);
     // Find the statusdesc with statuscode "ww4000"
     const statusDesc = await db.statusdesc.findOne({
       where: { statuscode: "WA4000" },
     });
+    const newbankprofile = await Bankprofile.create(user);
 
     // Associate the user with the statusdesc
     if (statusDesc) {
@@ -100,14 +115,12 @@ const register = async (req, res) => {
 
     emailservice.userregistermail(user.email, user.clinicName, user.clinicid, user.address, user.phonenumber);
 
-    res.send(result);
+    res.status(200).send(result);
   } catch (err) {
     res.status(500).send({
       message: "Some error occurred while creating user.",
     });
   }
-
-
 };
 
 

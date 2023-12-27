@@ -74,6 +74,19 @@ db.statusdesc.belongsToMany(db.user, {
   otherKey: "userId",
   as: "user"
 });
+
+// // users to profiles
+// db.user.belongsToMany(db.profile,{
+//   through: "profiles",
+//   foreignKey: 'clinicid',
+//   as: 'profile_user'
+// })
+
+// db.profile.belongsToMany(db.user,{
+//   foreignKey: 'clinicid',
+//   as: 'userprofiles'
+// })
+
 // // SurveyForm to Questions association
 // // db.surveyForm.hasMany(db.questions, {
 // //   foreignKey: 'surveyFormId',

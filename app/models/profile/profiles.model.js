@@ -5,7 +5,7 @@ module.exports = (sequelize, Sequelize) => {
       defaultValue: "assets/images/users/user.svg"
     },
     clinicid: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
     },
     clinicName: {
       type: Sequelize.STRING
@@ -41,7 +41,7 @@ module.exports = (sequelize, Sequelize) => {
     //     indexes : [
     //         {
     //             unique: true,
-    //             fields: []
+    //             fields: ["clinicid"]
     //         }
     //     ]
     // }
