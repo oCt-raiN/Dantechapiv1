@@ -91,11 +91,14 @@ const register = async (req, res) => {
   try {
     const newUser = await db.user.create(user);
 
+    user.userId = newUser.id;
+
     const newprofile = await db.profile.create(user);
     // Find the statusdesc with statuscode "ww4000"
     const statusDesc = await db.statusdesc.findOne({
       where: { statuscode: "WA4000" },
     });
+
     const newbankprofile = await Bankprofile.create(user);
 
     // Associate the user with the statusdesc
@@ -363,42 +366,112 @@ const getAllUser = async (req, res) => {
       });
     });
 };
+
+// const getOneUser = async (req, res) => {
+//   try {
+//     const user = await User.findOne({
+//       where: { userToken: req.body.userToken },
+//     });
+
+//     const stat = await Status.findOne({
+//       where: {
+//         clinicid: user.clinicid
+//       }
+//     });
+
+//     const profileo = await Profile.findOne({
+//       where: { clinicid: user.clinicid }
+//     });
+//     const bankprofile = await Bankprofile.findOne({
+//       where: { clinicid: user.clinicid }
+//     });
+//     const profile = concatDataValues(profileo, bankprofile);
+
+//     if (!user) {
+//       return res.status(404).send({
+//         message: 'User not found with userToken',
+//       });
+//     }
+
+//     const { email, userToken, photo, clinicName } = user;
+//     const clinicname = `${clinicName}`;
+//     const { statuscode, description } = stat;
+//     res.status(200).send({
+//       clinicname, profile,
+//       photo,
+//       email,
+//       userToken, statuscode, description
+//     });
+//   } catch (err) {
+//     res.status(500).send({
+//       message: 'Error retrieving User with userToken',
+//     });
+//   }
+// };
+
 const getOneUser = async (req, res) => {
   try {
     const user = await User.findOne({
       where: { userToken: req.body.userToken },
+      include: [
+        {
+          model: db.statusdesc,
+          as: 'statusdesc',
+          attributes: ['statuscode', 'description'],
+          through: { model: User.sequelize.models.userstatusdesc, as: 'userstatusdesc' },
+        },
+        {
+          model: db.profile,
+          as: 'profileuser',
+          attributes: ["image", "clinicid", "clinicName", "email", "address", "phonenumber", "city", "alternativenumber", "state", "pincode", "country"],
+        },
+        {
+          model: db.bankdetail,
+          as: 'bankdetailuser',
+          attributes: ["bankacnumber", "ifsc", "bankbranch", "upiid", "gst"],
+        }
+      ],
     });
 
-    const stat = await Status.findOne({
-      where: {
-        clinicid: user.clinicid
-      }
-    });
 
-    const profileo = await Profile.findOne({
-      where: { clinicid: user.clinicid }
-    });
-    const bankprofile = await Bankprofile.findOne({
-      where: { clinicid: user.clinicid }
-    });
-    const profile = concatDataValues(profileo, bankprofile);
-
+    // console.log(user.profileuser)
     if (!user) {
       return res.status(404).send({
         message: 'User not found with userToken',
       });
     }
 
-    const { email, userToken, photo, clinicName } = user;
+    const { id, email, userToken, clinicName } = user;
     const clinicname = `${clinicName}`;
-    const { statuscode, description } = stat;
+    const { statuscode } = user.statusdesc;
+    var userDetail = user.statusdesc;
+    var profile = concatDataValues(user.profileuser, user.bankdetailuser);
+
+
+    // Using the alias 'statusdesc->userstatusdesc' to access the associated data
+    // const userStatusDesc = user['statusdesc->userstatusdesc'];
+    // console.log(userStatusDesc)
+
+    // if (!userStatusDesc) {
+    //   return res.status(404).send({
+    //     message: 'UserStatusDesc not found for the user',
+    //   });
+    // }
+
+    // const { statusdesc } = userStatusDesc;
+    // const { statuscode, description } = statusdesc;
+
     res.status(200).send({
-      clinicname, profile,
-      photo,
+      clinicname,
       email,
-      userToken, statuscode, description
+      userToken,
+      userDetail,
+      profile,
+      // statuscode,
+      // description,
     });
   } catch (err) {
+    console.error(err);
     res.status(500).send({
       message: 'Error retrieving User with userToken',
     });

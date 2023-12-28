@@ -60,7 +60,7 @@ db.user = require("./user/user.model.js")(sequelize, Sequelize);
 
 
 
-
+// status and user link
 db.user.belongsToMany(db.statusdesc, {
   through: "userstatusdesc",
   foreignKey: "userId",
@@ -75,139 +75,27 @@ db.statusdesc.belongsToMany(db.user, {
   as: "user"
 });
 
-// // users to profiles
-// db.user.belongsToMany(db.profile,{
-//   through: "profiles",
-//   foreignKey: 'clinicid',
-//   as: 'profile_user'
-// })
 
-// db.profile.belongsToMany(db.user,{
-//   foreignKey: 'clinicid',
-//   as: 'userprofiles'
-// })
+//profile and user link
+db.user.hasOne(db.profile, {
+  foreignKey: "userId",
+  as: "profileuser"
+}
+);
+db.profile.belongsTo(db.user, {
+  foreignKey: "userId"
+});
 
-// // SurveyForm to Questions association
-// // db.surveyForm.hasMany(db.questions, {
-// //   foreignKey: 'surveyFormId',
-// //   as: 'questions',
-// // });
-
-// // // Questions to Options association
-// // db.questions.hasMany(db.options, {
-// //   foreignKey: 'questionId',
-// //   as: 'options',
-// // });
+//bankdetails and user link
+db.user.hasOne(db.bankdetail, {
+  foreignKey: "userId",
+  as: "bankdetailuser"
+}
+);
+db.bankdetail.belongsTo(db.user, {
+  foreignKey: "userId"
+});
 
 
 
-// // SurveyForm to Questions association
-// db.surveyForm.hasMany(db.questions, {
-//   foreignKey: 'surveyFormId',
-//   as: 'questions',
-// });
-
-// // Questions to SurveyForm association
-// db.questions.belongsTo(db.surveyForm, {
-//   foreignKey: 'surveyFormId',
-//   as: 'surveyForm',
-// });
-
-
-
-// SurveyForm to Questions association
-// db.user.hasMany(db.userstatus, {
-//   foreignKey: 'userId',
-//   as: 'userstatus',
-// });
-
-// // Questions to SurveyForm association
-// db.userstatus.belongsTo(db.user, {
-//   foreignKey: 'userId',
-//   as: 'user ',
-// });
-
-// db.user.hasMany(db.statusdesc, {
-//   foreignKey: 'userId',
-//   as: 'statusdesc',
-// });
-
-// // Questions to SurveyForm association
-// db.statusdesc.belongsTo(db.user, {
-//   foreignKey: 'userId',
-//   as: 'user ',
-// });
-// db.questions.hasMany(db.options, {
-//   foreignKey: 'questionId',
-//   as: 'options'
-// });
-
-
-// db.options.belongsTo(db.questions, {
-//   foreignKey: 'questionId',
-//   as: 'question'
-// });
-
-// db.surveyForm.hasMany(db.surveyResult, {
-//   foreignKey: 'surveyFormId',
-//   as: 'surveyResult',
-// });
-// db.surveyResult.belongsTo(db.surveyForm, {
-//   foreignKey: 'surveyFormId',
-//   as: 'surveyForm',
-// });
-
-// db.organization.hasMany(db.surveyResult, {
-//   foreignKey: 'organizationId',
-//   as: 'surveyResult',
-// });
-// db.surveyResult.belongsTo(db.organization, {
-//   foreignKey: 'organizationId',
-//   as: 'organization',
-// });
-
-// db.surveyResult.hasMany(db.surveyResultDetails, {
-//   foreignKey: 'surveyResultId',
-//   as: 'surveyResultDetails',
-// });
-// // SurveyResultDetails to SurveyResult association
-// db.surveyResultDetails.belongsTo(db.surveyResult, {
-//   foreignKey: 'surveyResultId',
-//   as: 'surveyResult',
-// });
-
-// // SurveyResultDetails to SurveyForm association
-// db.surveyResultDetails.belongsTo(db.surveyForm, {
-//   foreignKey: 'surveyFormId',
-//   as: 'surveyForm',
-// });
-
-// // SurveyResultDetails to Questions association
-// db.surveyResultDetails.belongsTo(db.questions, {
-//   foreignKey: 'questionId',
-//   as: 'question',
-// });
-
-// // // SurveyResultDetails to Options association
-// // db.surveyResultDetails.belongsTo(db.options, {
-
-// //   as: 'option',
-// // });
-
-// db.user.hasMany(db.surveyResult, {
-//   foreignKey: 'surveyFormId',
-//   as: 'surveyResult',
-// });
-// db.surveyResult.belongsTo(db.user, {
-//   foreignKey: 'userToken',
-//   as: 'user',
-// });
-// db.surveyInfo.belongsTo(db.user, {
-//   foreignKey: 'userToken',
-//   as: 'user',
-// });
-// db.surveyInfo.belongsTo(db.organizationRoll, {
-//   foreignKey: 'organizationRollId',
-//   as: 'organizationRoll',
-// });
 module.exports = db;
