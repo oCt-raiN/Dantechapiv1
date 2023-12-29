@@ -34,6 +34,7 @@ const adddoctor = async (req, res) => {
     Specialisation: req.body.doc.Specialisation
   };
   try {
+    doctor.userId = user.id;
     const newdoctor = await Doctor.create(doctor)
     const result = {
       // clinicid: newdoctor.clinicid,

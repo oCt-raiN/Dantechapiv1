@@ -57,6 +57,7 @@ db.jobnotification = require("./jobs/jobnotification.model.js")(sequelize, Seque
 db.statusdesc = require("./status/statusdesc.model.js")(sequelize, Sequelize);
 
 db.user = require("./user/user.model.js")(sequelize, Sequelize);
+db.userdesc = require("./user/userdesc.model.js")(sequelize, Sequelize);
 
 
 
@@ -95,6 +96,78 @@ db.user.hasOne(db.bankdetail, {
 db.bankdetail.belongsTo(db.user, {
   foreignKey: "userId"
 });
+
+// user and user description link
+db.user.hasOne(db.userdesc, {
+  foreignKey: "userId",
+  as: "userdesc"
+}
+);
+db.userdesc.belongsTo(db.user, {
+  foreignKey: "userId"
+});
+
+//user and doctors
+db.user.hasMany(db.doctor, {
+  foreignKey: "userId",
+  as: "userdoctor"
+}
+);
+db.doctor.belongsTo(db.user, {
+  foreignKey: "userId"
+});
+
+//user and order
+db.user.hasMany(db.orders, {
+  foreignKey: "userId",
+  as: "userorders"
+}
+);
+db.orders.belongsTo(db.user, {
+  foreignKey: "userId"
+});
+
+//user and orderform
+db.user.hasMany(db.order, {
+  foreignKey: "userId",
+  as: "userorder"
+}
+);
+db.order.belongsTo(db.user, {
+  foreignKey: "userId"
+});
+
+//workflow and workflow assignment
+db.workflow.hasMany(db.workflowassign, {
+  foreignKey: "workId",
+  as: "workflow_assign"
+}
+);
+db.workflowassign.belongsTo(db.workflow, {
+  foreignKey: "workId"
+});
+
+//workflow and workflow owner
+db.workflow.hasMany(db.workflowowner, {
+  foreignKey: "workId",
+  as: "workflow_owner"
+}
+);
+db.workflowowner.belongsTo(db.workflow, {
+  foreignKey: "workId"
+});
+
+
+//workflow and workflow details
+db.workflow.hasMany(db.workflowdetail, {
+  foreignKey: "workId",
+  as: "workflow_detail"
+}
+);
+db.workflowdetail.belongsTo(db.workflow, {
+  foreignKey: "workId"
+});
+
 
 
 

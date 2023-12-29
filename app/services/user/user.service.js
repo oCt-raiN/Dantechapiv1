@@ -89,17 +89,21 @@ const register = async (req, res) => {
   };
 
   try {
+
+    const statusDesc = await db.statusdesc.findOne({
+      where: { statuscode: "WA4000" },
+    });
     const newUser = await db.user.create(user);
 
     user.userId = newUser.id;
 
     const newprofile = await db.profile.create(user);
     // Find the statusdesc with statuscode "ww4000"
-    const statusDesc = await db.statusdesc.findOne({
-      where: { statuscode: "WA4000" },
-    });
+
 
     const newbankprofile = await Bankprofile.create(user);
+
+    const newdesc = await db.userdesc.create(user);
 
     // Associate the user with the statusdesc
     if (statusDesc) {
@@ -429,9 +433,25 @@ const getOneUser = async (req, res) => {
           model: db.bankdetail,
           as: 'bankdetailuser',
           attributes: ["bankacnumber", "ifsc", "bankbranch", "upiid", "gst"],
+        },
+        {
+          model: db.userdesc,
+          as: 'userdesc',
+          attributes: ["description"],
         }
       ],
     });
+
+    const doctor = await db.doctor.findAll({
+      where: { clinicid: user.clinicid }
+    });
+    if (doctor.length > 0) {
+      var doctor_count = true;
+    } else {
+      var doctor_count = false;
+    };
+
+
 
 
     // console.log(user.profileuser)
@@ -446,6 +466,7 @@ const getOneUser = async (req, res) => {
     const { statuscode } = user.statusdesc;
     var userDetail = user.statusdesc;
     var profile = concatDataValues(user.profileuser, user.bankdetailuser);
+    var userDesc = user.userdesc;
 
 
     // Using the alias 'statusdesc->userstatusdesc' to access the associated data
@@ -467,6 +488,8 @@ const getOneUser = async (req, res) => {
       userToken,
       userDetail,
       profile,
+      userDesc,
+      doctor_count,
       // statuscode,
       // description,
     });

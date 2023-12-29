@@ -18,26 +18,6 @@ import route in service.js
     insert into statusdescs (id,statuscode,description) VALUE (1,"WA4000","Waiting");
     insert into statusdescs (id,statuscode,description) VALUE (2,"AC2000","Accepted");
     insert into statusdescs (id,statuscode,description) VALUE (3,"RJ5000","Rejected");
-    ALTER TABLE `dantech`.`users`
-
-CHANGE COLUMN `clinicid` `clinicid` VARCHAR(255) NOT NULL ,
-DROP PRIMARY KEY,
-ADD PRIMARY KEY (`id`, `clinicid`),
-ADD UNIQUE INDEX `clinicid_UNIQUE` (`clinicid` ASC) VISIBLE;
-;
-ALTER TABLE `dantech`.`profiles`
-CHANGE COLUMN `clinicid` `clinicid` VARCHAR(255) NOT NULL ,
-CHANGE COLUMN `state` `state` VARCHAR(255) NOT NULL ,
-DROP PRIMARY KEY,
-ADD PRIMARY KEY (`id`, `clinicid`),
-ADD UNIQUE INDEX `clinicid_UNIQUE` (`clinicid` ASC) VISIBLE;
-;
-ALTER TABLE `dantech`.`profiles`
-ADD CONSTRAINT `userprofile_fk1`
-FOREIGN KEY (`clinicid`)
-REFERENCES `dantech`.`users` (`clinicid`)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION;
 
 ALTER TABLE `dantech`.`assignes`
 CHANGE COLUMN `createdAt` `createdAt` DATETIME NULL ,
