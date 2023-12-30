@@ -15,70 +15,140 @@ const emailservice = require('../../services/email.service');
 
 
 const rejectuser = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: { userToken: req.body.userToken },
+    });
+    const statusDesc = await db.statusdesc.findOne({
+      where: { statuscode: "RJ5000" },
+    });
 
-  const user = await User.findOne({
-    where: { userToken: req.body.userToken },
-  });
-
-  descrip = req.body.description.description;
-  Status.update(
-    {
-      statuscode: "RJ5000",
-      description: req.body.description.description,
-    },
-    {
+    descrip = req.body.description.description;
+    db.userdesc.update({
+      description: descrip,
+    }, {
       where: {
-        clinicid: user.clinicid
+        userId: user.id
       }
-    }
-  ).then(rowsAffected => {
-    if (rowsAffected[0] === 0) {
-      return res.status(404).send({
-        message: "user not found with token " + req.body.userToken
+    })
+
+    const description = {
+      userId: user.id,
+      description: descrip
+    };
+
+    if (statusDesc) {
+      // Ensure user and status are found before proceeding
+      await user.setStatusdesc(statusDesc);
+      console.log('User status updated successfully.');
+
+      return res.status(200).json({ message: 'User status updated successfully.' });
+      emailservice.rejectedmail(user.email, user.clinicName, user.clinicid, descrip);
+      res.send({
+        message: "user was updated successfully with token " + req.body.userToken
       });
+    } else {
+      console.log('Status code not found in statusdesc table.');
+      return res.status(404).json({ error: 'Status code not found in statusdesc table.' });
     }
-    emailservice.rejectedmail(user.email, user.clinicName, user.clinicid, descrip);
-    res.send({
-      message: "user was updated successfully with token " + req.body.userToken
-    });
-  })
-    .catch(err => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while updating the professional."
-      });
-    });
+
+  } catch (error) {
+    console.error('Error occurred while updating user status:', error);
+    return res.status(500).json({ error: 'An error occurred while updating user status.' });
+  }
+
+  // Status.update(
+  //   {
+  //     statuscode: "RJ5000",
+  //     description: req.body.description.description,
+  //   },
+  //   {
+  //     where: {
+  //       clinicid: user.clinicid
+  //     }
+  //   }
+  // ).then(rowsAffected => {
+  //   if (rowsAffected[0] === 0) {
+  //     return res.status(404).send({
+  //       message: "user not found with token " + req.body.userToken
+  //     });
+  //   }
+  //   emailservice.rejectedmail(user.email, user.clinicName, user.clinicid, descrip);
+  //   res.send({
+  //     message: "user was updated successfully with token " + req.body.userToken
+  //   });
+  // })
+  //   .catch(err => {
+  //     res.status(500).send({
+  //       message: err.message || "Some error occurred while updating the professional."
+  //     });
+  //   });
 }
 
 const approveuser = async (req, res) => {
-
-  const user = await User.findOne({
-    where: { userToken: req.body.userToken },
-  });
-  Status.update(
-    {
-      statuscode: "AC2000",
-    },
-    {
+  try {
+    const admin = await Admin.findOne({
       where: {
-        clinicid: user.clinicid
+        adminToken: req.body.adminToken
       }
-    }
-  ).then(rowsAffected => {
-    if (rowsAffected[0] === 0) {
-      return res.status(404).send({
-        message: "user not found with token " + req.body.userToken
-      });
-    }
-    emailservice.approvedmail(user.email, user.clinicName, user.clinicid);
-    res.send({
-      message: "user was updated successfully with token " + req.body.userToken
     });
-  })
-    .catch(err => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while updating the professional."
-      });
+
+    if (!admin) {
+      res.status(404).send({ message: "Cannot find admin with token " + req.body.adminToken })
+    }
+    const user = await User.findOne({
+      where: { userToken: req.body.userToken },
     });
+
+    const statusDesc = await db.statusdesc.findOne({
+      where: { statuscode: "AC2000" },
+    });
+
+    if (statusDesc) {
+      // Ensure user and status are found before proceeding
+      await user.setStatusdesc(statusDesc);
+      console.log('User status updated successfully.');
+      return res.status(200).json({ message: 'User status updated successfully.' });
+      emailservice.approvedmail(user.email, user.clinicName, user.clinicid);
+      res.send({
+        message: "user was updated successfully with token " + req.body.userToken
+      });
+    } else {
+      console.log('Status code not found in statusdesc table.');
+      return res.status(404).json({ error: 'Status code not found in statusdesc table.' });
+    }
+  } catch (error) {
+    console.error('Error occurred while updating user status:', error);
+    return res.status(500).json({ error: 'An error occurred while updating user status.' });
+  }
+
+
+
+  // Status.update(
+  //   {
+  //     statuscode: "AC2000",
+  //   },
+  //   {
+  //     where: {
+  //       clinicid: user.clinicid
+  //     }
+  //   }
+  // ).then(rowsAffected => {
+  //   if (rowsAffected[0] === 0) {
+  //     return res.status(404).send({
+  //       message: "user not found with token " + req.body.userToken
+  //     });
+  //   }
+  //   emailservice.approvedmail(user.email, user.clinicName, user.clinicid);
+  //   res.send({
+  //     message: "user was updated successfully with token " + req.body.userToken
+  //   });
+  // })
+  //   .catch(err => {
+  //     res.status(500).send({
+  //       message: err.message || "Some error occurred while updating the professional."
+  //     });
+  //   });
 }
 
 
@@ -89,10 +159,34 @@ const getAllUser = async (req, res) => {
         adminToken: req.body.userToken
       }
     });
-    const user = await User.findAll()
-    const state = await Status.findAll()
+    const user = await User.findAll({
+      include: [
+        {
+          model: db.statusdesc,
+          as: 'statusdesc',
+          attributes: ['statuscode', 'description'],
+          through: { model: User.sequelize.models.userstatusdesc, as: 'userstatusdesc' },
+        },
+        {
+          model: db.profile,
+          as: 'profileuser',
+          attributes: ["image", "clinicid", "clinicName", "email", "address", "phonenumber", "city", "alternativenumber", "state", "pincode", "country"],
+        },
+        {
+          model: db.bankdetail,
+          as: 'bankdetailuser',
+          attributes: ["bankacnumber", "ifsc", "bankbranch", "upiid", "gst"],
+        },
+        {
+          model: db.userdesc,
+          as: 'userdesc',
+          attributes: ["description"],
+        }
+      ],
+    });
+
     res.status(200).send({
-      user, state
+      user
     });
   }
   catch (err) {
@@ -166,15 +260,13 @@ const userregister = async (req, res) => {
     }
   });
 
-  console.log(checkuser)
+  // console.log(checkuser)
   if (checkuser) {
     return res.status(404).send({ message: "User Already exist." });
   }
 
+
   const clinic_id = generateString();
-  const state = {
-    clinicid: clinic_id
-  }
 
   const user = {
     clinicid: clinic_id,
@@ -187,32 +279,43 @@ const userregister = async (req, res) => {
   };
 
   try {
-    // Save professional in the database
-    const newUser = await User.create(user);
-    // console.log(newUser);
-    const userstat = await Status.create(state);
-    // console.log(userstat);
-    const newprofile = await Profile.create(user);
-    // console.log(newprofile);
-    const newbankprofile = await Bankprofile.create(state);
-    // Exclude the specified fields from the output
+
+    const statusDesc = await db.statusdesc.findOne({
+      where: { statuscode: "WA4000" },
+    });
+    const newUser = await db.user.create(user);
+
+    user.userId = newUser.id;
+
+    const newprofile = await db.profile.create(user);
+    // Find the statusdesc with statuscode "ww4000"
+
+
+    const newbankprofile = await Bankprofile.create(user);
+
+    const newdesc = await db.userdesc.create(user);
+
+    // Associate the user with the statusdesc
+    if (statusDesc) {
+      await newUser.addStatusdesc(statusDesc);
+    }
+
     const result = {
-      // fullName: newUser.firstName+' '+newUser.lastName,
-      // clinicid: newUser.clinicid,
       clinicName: newUser.clinicName,
       address: newUser.clinicName,
       phonenumber: newUser.phonenumber,
       email: newUser.email,
       password: newUser.password,
       userToken: newUser.userToken,
-
+      statusdesc: [{ statuscode: statusDesc.statuscode, description: statusDesc.description }],
     };
 
-    res.send(result);
+    emailservice.userregistermail(user.email, user.clinicName, user.clinicid, user.address, user.phonenumber);
+
+    res.status(200).send(result);
   } catch (err) {
     res.status(500).send({
-      message:
-        err.message || "Some error occurred while creating user."
+      message: "Some error occurred while creating user.",
     });
   }
 };
