@@ -53,7 +53,7 @@ db.jobstatus = require("./jobs/job.status.model.js")(sequelize, Sequelize);
 db.jobassignment = require("./jobs/jobassignment.model.js")(sequelize, Sequelize);
 db.jobdetail = require("./jobs/jobdetails.model.js")(sequelize, Sequelize);
 db.jobnotification = require("./jobs/jobnotification.model.js")(sequelize, Sequelize);
-
+db.jobstatusinfo = require("./jobs/job.statusinfo.model.js")(sequelize, Sequelize);
 db.statusdesc = require("./status/statusdesc.model.js")(sequelize, Sequelize);
 
 db.user = require("./user/user.model.js")(sequelize, Sequelize);
@@ -168,7 +168,55 @@ db.workflowdetail.belongsTo(db.workflow, {
   foreignKey: "workId"
 });
 
+//jobs and jobdetails
+db.jobs.hasMany(db.jobdetail, {
+  foreignKey: "jobId",
+  as: "job_detail"
+}
+);
+db.jobdetail.belongsTo(db.jobs, {
+  foreignKey: "jobId"
+});
 
+// jobs and jobstaus
+db.jobs.hasMany(db.jobstatus, {
+  foreignKey: "jobId",
+  as: "job_status"
+}
+);
+db.jobstatus.belongsTo(db.jobs, {
+  foreignKey: "jobId"
+});
+
+//jobs and job assignment
+db.jobs.hasMany(db.jobassignment, {
+  foreignKey: "jobId",
+  as: "job_assignment"
+}
+);
+db.jobassignment.belongsTo(db.jobs, {
+  foreignKey: "jobId"
+});
+
+//job and job notification
+db.jobs.hasMany(db.jobnotification, {
+  foreignKey: "jobId",
+  as: "job_notification"
+}
+);
+db.jobnotification.belongsTo(db.jobs, {
+  foreignKey: "jobId"
+});
+
+//jobstatusinfo and jobs
+db.jobstatusinfo.hasMany(db.jobs, {
+  foreignKey: "statusId",
+  as: "status_jobs"
+}
+);
+db.jobs.belongsTo(db.jobstatusinfo, {
+  foreignKey: "statusId"
+});
 
 
 module.exports = db;

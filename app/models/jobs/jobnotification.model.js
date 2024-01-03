@@ -1,8 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
     const jobnotify = sequelize.define("jobnotify", {
-        jobid: {
-            type: Sequelize.STRING,
-        },
         workflowid: {
             type: Sequelize.STRING,
         },

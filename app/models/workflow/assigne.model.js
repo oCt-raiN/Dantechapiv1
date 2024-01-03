@@ -1,12 +1,9 @@
 module.exports = (sequelize, Sequelize) => {
     const assignee = sequelize.define("assigne", {
-        stepid: {
-            type: Sequelize.STRING,
-        },
         assignee: {
             type: Sequelize.STRING,
         },
-        assignmentdept: {
+        departmentid: {
             type: Sequelize.STRING,
         },
         assigneeid: {

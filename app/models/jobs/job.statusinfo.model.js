@@ -1,24 +1,11 @@
 module.exports = (sequelize, Sequelize) => {
-    const jobs = sequelize.define("jobs", {
-        workflowid: {
+    const jobstatusinfo = sequelize.define("jobstatusinfo", {
+        jobStatusCode: {
             type: Sequelize.STRING,
         },
-        orderid: {
-            type: Sequelize.STRING,
-        },
-        jobid: {
-            type: Sequelize.STRING,
-        },
-        createdate: {
-            type: Sequelize.STRING,
-        },
-        coimpletiondate: {
-            type: Sequelize.STRING,
-        },
-        jobToken: {
+        jobStatusDescription: {
             type: Sequelize.STRING,
         }
-
     },
         // {
         //     indexes: [
@@ -30,5 +17,5 @@ module.exports = (sequelize, Sequelize) => {
         //   }
     );
 
-    return jobs;
+    return jobstatusinfo;
 };

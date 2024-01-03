@@ -1,8 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
     const jobdetail = sequelize.define("jobdetail", {
-        jobid: {
-            type: Sequelize.STRING,
-        },
         stepid: {
             type: Sequelize.STRING,
         },
