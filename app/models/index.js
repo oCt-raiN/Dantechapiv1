@@ -55,6 +55,7 @@ db.jobdetail = require("./jobs/jobdetails.model.js")(sequelize, Sequelize);
 db.jobnotification = require("./jobs/jobnotification.model.js")(sequelize, Sequelize);
 db.jobstatusinfo = require("./jobs/job.statusinfo.model.js")(sequelize, Sequelize);
 db.statusdesc = require("./status/statusdesc.model.js")(sequelize, Sequelize);
+db.department = require("./workflow/department.model.js")(sequelize, Sequelize);
 
 db.user = require("./user/user.model.js")(sequelize, Sequelize);
 db.userdesc = require("./user/userdesc.model.js")(sequelize, Sequelize);
@@ -218,5 +219,14 @@ db.jobs.belongsTo(db.jobstatusinfo, {
   foreignKey: "statusId"
 });
 
+//department and assigne
+db.department.hasMany(db.assignee, {
+  foreignKey: "deptId",
+  as: "department_assigne"
+}
+);
+db.assignee.belongsTo(db.department, {
+  foreignKey: "deptId"
+});
 
 module.exports = db;

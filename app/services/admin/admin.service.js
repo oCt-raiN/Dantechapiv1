@@ -220,6 +220,38 @@ const getallorders = async (req, res) => {
 };
 
 
+const getAllworkflow = async (req, res) => {
+  try {
+    const admin = Admin.findOne({
+      where: {
+        adminToken: req.body.userToken,
+      }
+    });
+
+    if (!admin) {
+      return res.status(404).send({ message: "Admin Not found." });
+    }
+
+    // if (!req.body || !req.body.adminToken) {
+    //   return res.status(400).send({
+    //     message: "Invalid request. 'form' property is missing in the request body.",
+    //   });
+    // }
+
+    const work_flow = await db.workflow.findAll();
+
+    res.status(201).send(work_flow);
+  }
+  catch (err) {
+    console.error(err);
+
+    res.status(500).send({
+      message: "Some error occurred while creating order.",
+    });
+  }
+};
+
+
 function generateString() {
   // Get current date and time
   const currentDate = new Date();
@@ -675,6 +707,7 @@ module.exports = {
   register,
   login,
   userregister,
+  getAllworkflow,
   //professional password
   forgotpassword,
   resetpassword,

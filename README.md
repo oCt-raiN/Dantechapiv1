@@ -15,69 +15,77 @@ import route in service.js
     ALTER TABLE `dantech`.`statusdescs`
     CHANGE COLUMN `createdAt` `createdAt` DATETIME NULL ,
     CHANGE COLUMN `updatedAt` `updatedAt` DATETIME NULL ;
-    insert into statusdescs (id,statuscode,description) VALUE (1,"WA4000","Waiting");
-    insert into statusdescs (id,statuscode,description) VALUE (2,"AC2000","Accepted");
-    insert into statusdescs (id,statuscode,description) VALUE (3,"RJ5000","Rejected");
+    insert into `dantech`.`statusdescs` (id,statuscode,description) VALUE (1,"WA4000","Waiting");
+    insert into `dantech`.`statusdescs` (id,statuscode,description) VALUE (2,"AC2000","Accepted");
+    insert into `dantech`.`statusdescs` (id,statuscode,description) VALUE (3,"RJ5000","Rejected");
+    ALTER TABLE `dantech`.`departments`
+    CHANGE COLUMN `createdAt` `createdAt` DATETIME NULL ,
+    CHANGE COLUMN `updatedAt` `updatedAt` DATETIME NULL ;
 
-ALTER TABLE `dantech`.`assignes`
-CHANGE COLUMN `createdAt` `createdAt` DATETIME NULL ,
-CHANGE COLUMN `updatedAt` `updatedAt` DATETIME NULL ;
+    ALTER TABLE `dantech`.`assignes`
+    CHANGE COLUMN `createdAt` `createdAt` DATETIME NULL ,
+    CHANGE COLUMN `updatedAt` `updatedAt` DATETIME NULL ;
 
-ALTER TABLE `dantech`.`workflowassigns`
-CHANGE COLUMN `createdAt` `createdAt` DATETIME NULL ,
-CHANGE COLUMN `updatedAt` `updatedAt` DATETIME NULL ;
+    ALTER TABLE `dantech`.`workflowassigns`
+    CHANGE COLUMN `createdAt` `createdAt` DATETIME NULL ,
+    CHANGE COLUMN `updatedAt` `updatedAt` DATETIME NULL ;
 
-ALTER TABLE `dantech`.`workflowdetails`
-CHANGE COLUMN `createdAt` `createdAt` DATETIME NULL ,
-CHANGE COLUMN `updatedAt` `updatedAt` DATETIME NULL ;
+    ALTER TABLE `dantech`.`workflowdetails`
+    CHANGE COLUMN `createdAt` `createdAt` DATETIME NULL ,
+    CHANGE COLUMN `updatedAt` `updatedAt` DATETIME NULL ;
 
-ALTER TABLE `dantech`.`workflowowners`
-CHANGE COLUMN `createdAt` `createdAt` DATETIME NULL ,
-CHANGE COLUMN `updatedAt` `updatedAt` DATETIME NULL ;
+    ALTER TABLE `dantech`.`workflowowners`
+    CHANGE COLUMN `createdAt` `createdAt` DATETIME NULL ,
+    CHANGE COLUMN `updatedAt` `updatedAt` DATETIME NULL ;
 
-ALTER TABLE `dantech`.`workflows`
-CHANGE COLUMN `createdAt` `createdAt` DATETIME NULL ,
-CHANGE COLUMN `updatedAt` `updatedAt` DATETIME NULL ;
-INSERT INTO `dantech`.`workflows` (`id`, `workflowid`, `workflowType`) VALUES ('1', 'W0001', 'Crown & Bridge');
-INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('1', 'W0001', '1', 'ST001', 'Mold Creation', 'Sequential', '1');
-INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('2', 'W0001', '2', 'ST002', 'Ditching/Die cut', 'Sequential', '1');
-INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('3', 'W0001', '3', 'ST003', 'Quality Check', 'Sequential', '1');
-INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('4', 'W0001', '4', 'ST004', 'Articulation', 'Sequential', '1');
-INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('5', 'W0001', '5', 'ST005', 'Scanning', 'Sequential', '1');
-INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('6', 'W0001', '6', 'ST006', 'Designing', 'Sequential', '1');
-INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('7', 'W0001', '7', 'ST007', 'Milling', 'Sequential', '1');
-INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('8', 'W0001', '8', 'ST008', 'Sintering', 'Sequential', '1');
-INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('9', 'W0001', '9', 'ST009', 'Layering / Trimming', 'Sequential', '1');
-INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('10', 'W0001', '10', 'ST010', 'Glazing', 'Sequential', '1');
-INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('11', 'W0001', '11', 'ST011', 'Production Check', 'Sequential', '1');
-INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('12', 'W0001', '12', 'ST012', 'Dispatch', 'Sequential', '1');
-INSERT INTO `dantech`.`workflowowners` (`id`, `workflowid`, `owner`, `workId`) VALUES ('1', 'W0001', 'Supervisor', '1');
+    ALTER TABLE `dantech`.`workflows`
+    CHANGE COLUMN `createdAt` `createdAt` DATETIME NULL ,
+    CHANGE COLUMN `updatedAt` `updatedAt` DATETIME NULL ;
+    INSERT INTO `dantech`.`workflows` (`id`, `workflowid`, `workflowType`) VALUES ('1', 'W0001', 'Crown & Bridge');
+    INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('1', 'W0001', '1', 'ST001', 'Mold Creation', 'Sequential', '1');
+    INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('2', 'W0001', '2', 'ST002', 'Ditching/Die cut', 'Sequential', '1');
+    INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('3', 'W0001', '3', 'ST003', 'Quality Check', 'Sequential', '1');
+    INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('4', 'W0001', '4', 'ST004', 'Articulation', 'Sequential', '1');
+    INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('5', 'W0001', '5', 'ST005', 'Scanning', 'Sequential', '1');
+    INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('6', 'W0001', '6', 'ST006', 'Designing', 'Sequential', '1');
+    INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('7', 'W0001', '7', 'ST007', 'Milling', 'Sequential', '1');
+    INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('8', 'W0001', '8', 'ST008', 'Sintering', 'Sequential', '1');
+    INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('9', 'W0001', '9', 'ST009', 'Layering / Trimming', 'Sequential', '1');
+    INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('10', 'W0001', '10', 'ST010', 'Glazing', 'Sequential', '1');
+    INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('11', 'W0001', '11', 'ST011', 'Production Check', 'Sequential', '1');
+    INSERT INTO `dantech`.`workflowdetails` (`id`, `workflowid`, `stepid`, `stepcode`, `description`, `workflowType`, `workId`) VALUES ('12', 'W0001', '12', 'ST012', 'Dispatch', 'Sequential', '1');
+    INSERT INTO `dantech`.`workflowowners` (`id`, `workflowid`, `owner`, `workId`) VALUES ('1', 'W0001', 'Supervisor', '1');
 
-INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('1', 'W0001', 'ST001', 'Plaster team', 'PLS', '1');
-INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('2', 'W0001', 'ST002', 'Plaster team', 'PLS', '1');
-INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('3', 'W0001', 'ST003', 'Plaster team', 'PLS', '1');
-INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('4', 'W0001', 'ST004', 'Plaster team', 'PLS', '1');
-INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('5', 'W0001', 'ST005', 'Designer team', 'DSG', '1');
-INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('6', 'W0001', 'ST006', 'Designer team', 'DSG', '1');
-INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('7', 'W0001', 'ST007', 'Production team', 'PRD', '1');
-INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('8', 'W0001', 'ST008', 'Production team', 'PRD', '1');
-INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('9', 'W0001', 'ST009', 'Ceramic team', 'CER', '1');
-INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('10', 'W0001', 'ST010', 'Ceramic team', 'CER', '1');
-INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('11', 'W0001', 'ST011', 'Ceramic team', 'CER', '1');
-INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('12', 'W0001', 'ST012', 'Admin team', 'ADM', '1');
+    INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('1', 'W0001', 'ST001', 'Plaster team', 'PLS', '1');
+    INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('2', 'W0001', 'ST002', 'Plaster team', 'PLS', '1');
+    INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('3', 'W0001', 'ST003', 'Plaster team', 'PLS', '1');
+    INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('4', 'W0001', 'ST004', 'Plaster team', 'PLS', '1');
+    INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('5', 'W0001', 'ST005', 'Designer team', 'DSG', '1');
+    INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('6', 'W0001', 'ST006', 'Designer team', 'DSG', '1');
+    INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('7', 'W0001', 'ST007', 'Production team', 'PRD', '1');
+    INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('8', 'W0001', 'ST008', 'Production team', 'PRD', '1');
+    INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('9', 'W0001', 'ST009', 'Ceramic team', 'CER', '1');
+    INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('10', 'W0001', 'ST010', 'Ceramic team', 'CER', '1');
+    INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('11', 'W0001', 'ST011', 'Ceramic team', 'CER', '1');
+    INSERT INTO `dantech`.`workflowassigns` (`id`, `workflowid`, `stepid`, `assignmentdept`, `departmentid`, `workId`) VALUES ('12', 'W0001', 'ST012', 'Admin team', 'ADM', '1');
 
-INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`) VALUES ('1', 'Varun', 'PLS', 'PLS01');
-INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`) VALUES ('2', 'Hari', 'PLS', 'PLS02');
-INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`) VALUES ('3', 'Dhamu', 'PLS', 'PLS03');
-INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`) VALUES ('4', 'Lakshmi', 'DSG', 'DSG01');
-INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`) VALUES ('5', 'Jasvin', 'DSG', 'DSG02');
-INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`) VALUES ('6', 'Maharoof', 'DSG', 'DSG03');
-INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`) VALUES ('7', 'Sandesh', 'DSG', 'DSG04');
-INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`) VALUES ('8', 'Athira', 'DSG', 'DSG05');
-INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`) VALUES ('9', 'Sridhar', 'PRD', 'PRD01');
-INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`) VALUES ('10', 'Murugesh', 'CER', 'CER01');
-INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`) VALUES ('11', 'Ruban', 'CER', 'CER02');
-INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`) VALUES ('12', 'Karthikeya', 'CER', 'CER03');
+    INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`,`deptId`) VALUES ('1', 'Varun', 'PLS', 'PLS01',1);
+    INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`,`deptId`) VALUES ('2', 'Hari', 'PLS', 'PLS02',1);
+    INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`,`deptId`) VALUES ('3', 'Dhamu', 'PLS', 'PLS03',1);
+    INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`,`deptId`) VALUES ('4', 'Lakshmi', 'DSG', 'DSG01',2);
+    INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`,`deptId`) VALUES ('5', 'Jasvin', 'DSG', 'DSG02',2);
+    INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`,`deptId`) VALUES ('6', 'Maharoof', 'DSG', 'DSG03',2);
+    INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`,`deptId`) VALUES ('7', 'Sandesh', 'DSG', 'DSG04',2);
+    INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`,`deptId`) VALUES ('8', 'Athira', 'DSG', 'DSG05',2);
+    INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`,`deptId`) VALUES ('9', 'Sridhar', 'PRD', 'PRD01',3);
+    INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`,`deptId`) VALUES ('10', 'Murugesh', 'CER', 'CER01',4);
+    INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`,`deptId`) VALUES ('11', 'Ruban', 'CER', 'CER02',4);
+    INSERT INTO `dantech`.`assignes` (`id`, `assignee`, `departmentid`, `assigneeid`,`deptId`) VALUES ('12', 'Karthikeya', 'CER', 'CER03',4);
+    INSERT INTO `dantech`.`departments` (`id`, `department`, `deptcode`) VALUES ('1', 'Plaster Team', 'PLS');
+    INSERT INTO `dantech`.`departments` (`id`, `department`, `deptcode`) VALUES ('2', 'Design Team', 'DSG');
+    INSERT INTO `dantech`.`departments` (`id`, `department`, `deptcode`) VALUES ('3', 'Production Team', 'PRD');
+    INSERT INTO `dantech`.`departments` (`id`, `department`, `deptcode`) VALUES ('4', 'Ceramic Team', 'CER');
+    INSERT INTO `dantech`.`admins` (`id`,`firstname`,`email`,`password`,`adminToken`,`createdAt`,`updatedAt`) VALUES (1,"admin","admin@yakkay.com","$2a$08$pBRhJKEJjOZxRk/Ph4gb3eKUkJaqDjCwbhcgl525YQTQYBFW7qUQS","8by8hYTxi2W9R19deV22so9FFFvSMpf5TFC08XybkiO","2024-01-04 06:54:47","2024-01-04 06:54:47");
 
 For more detail, please visit:
 

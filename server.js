@@ -96,6 +96,7 @@ require('./app/routes/surveyForm/surveyForm.routes')(app);
 require('./app/routes/profile/profile.routes')(app);
 require('./app/routes/doctor/doctor.routes')(app);
 require('./app/routes/order/order.routes')(app);
+require('./app/routes/workflow/workflow.routes')(app);
 
 // set port, listen for requests
 const PORT = config.port || 8000;
