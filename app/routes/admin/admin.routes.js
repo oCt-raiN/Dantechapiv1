@@ -3,6 +3,7 @@ module.exports = app => {
   const admininfo = require("../../controllers/admin/admin.controller");
   const { adminVerifySignUp } = require("../../middleware");
 
+
   var router = require("express").Router();
   app.use(function (req, res, next) {
     res.header(
@@ -40,6 +41,9 @@ module.exports = app => {
   router.put("/rejectuser", admin.rejectusers)
   router.put("/approveuser", admin.approveusers)
   router.post("/getallorder", admin.getallorders)
-
+  router.post("/getallworkflow", admin.getallworkflow)
+  router.post("/getalldeparts", admin.getAlldepartment)
+  router.post("/getworkflowsteps", admin.getWorkFlowsteps)
+  router.post("/getassigne", admin.getAssignees)
   app.use('/api/admin', router);
 };    

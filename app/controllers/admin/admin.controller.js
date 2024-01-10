@@ -74,3 +74,19 @@ exports.approveusers = (req, res) => {
 exports.getallorders = (req, res) => {
   adminService.getallorders(req, res);
 }
+
+exports.getallworkflow = (req, res) => {
+  adminService.getAllworkflow(req, res);
+}
+
+exports.getAlldepartment = (req, res) => {
+  adminService.getAlldepartment(req, res);
+}
+
+exports.getWorkFlowsteps = (req, res) => {
+  adminService.workFlowSteps(req, res);
+}
+
+exports.getAssignees = (req, res) => {
+  adminService.getAssigne(req, res);
+}

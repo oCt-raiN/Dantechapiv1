@@ -13,7 +13,7 @@ module.exports = app => {
         next();
     });
 
-    router.post("/getallworkflow", wrkflwcntrl.getallworkflows)
+    router.post("/getallworkflow", wrkflwcntrl.getallworkflows);
     router.post("/getalldepartments", wrkflwcntrl.getalldepartments)
 
     // router.post("/createstatus",statuscntrl.createstatus)

@@ -5,6 +5,7 @@ const Admininfo = db.admininfo;
 const User = db.user;
 const Status = db.status;
 const Orderforms = db.order;
+const Workflow = db.workflow;
 const Profile = db.profile;
 const Bankprofile = db.bankdetail
 var jwt = require("jsonwebtoken");
@@ -12,6 +13,7 @@ var bcrypt = require("bcryptjs");
 const TokenGenerator = require('uuid-token-generator');
 const tokgen2 = new TokenGenerator(256, TokenGenerator.BASE62);
 const emailservice = require('../../services/email.service');
+const workflowModel = require("../../models/workflow/workflow.model");
 
 
 const rejectuser = async (req, res) => {
@@ -219,37 +221,6 @@ const getallorders = async (req, res) => {
   }
 };
 
-
-const getAllworkflow = async (req, res) => {
-  try {
-    const admin = Admin.findOne({
-      where: {
-        adminToken: req.body.userToken,
-      }
-    });
-
-    if (!admin) {
-      return res.status(404).send({ message: "Admin Not found." });
-    }
-
-    // if (!req.body || !req.body.adminToken) {
-    //   return res.status(400).send({
-    //     message: "Invalid request. 'form' property is missing in the request body.",
-    //   });
-    // }
-
-    const work_flow = await db.workflow.findAll();
-
-    res.status(201).send(work_flow);
-  }
-  catch (err) {
-    console.error(err);
-
-    res.status(500).send({
-      message: "Some error occurred while creating order.",
-    });
-  }
-};
 
 
 function generateString() {
@@ -702,12 +673,141 @@ const getOneAdmin = async (req, res) => {
   }
 };
 
+const getAllworkflow = async (req, res) => {
+  try {
+
+    const admin = db.admin.findOne({
+      where: {
+        adminToken: req.body.adminToken,
+      }
+    });
+
+    if (!admin) {
+      return res.status(404).send({ message: "Admin Not found." });
+    }
+
+    const work_flow = await Workflow.findAll();
+
+    res.status(200).send(work_flow);
+  }
+  catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+const getAlldepartment = async (req, res) => {
+  try {
+    const admin = db.admin.findOne({
+      where: {
+        adminToken: req.body.adminToken,
+      }
+    });
+
+    if (!admin) {
+      return res.status(404).send({ message: "Admin Not found." });
+    }
+
+    const depart = await db.department.findAll();
+
+    res.status(200).send(
+      depart
+    )
+  }
+  catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+
+const workFlowSteps = async (req, res) => {
+  try {
+    const admin = db.admin.findOne({
+      where: {
+        adminToken: req.body.adminToken,
+      }
+    });
+
+    if (!admin) {
+      return res.status(404).send({ message: "Admin Not found." });
+    }
+
+    const steps = await db.workflowdetail.findAll({
+      where: {
+        workflowid: req.body.workFlowId,
+      }
+    });
+
+    res.status(200).send({
+      step: steps,
+    })
+  } catch (err) {
+    res.status(500).send({ message: err.message })
+  }
+};
+
+const getAssigne = async (req, res) => {
+  try {
+    const admin = db.admin.findOne({
+      where: {
+        adminToken: req.body.adminToken,
+      }
+    });
+
+    if (!admin) {
+      return res.status(404).send({ message: "Admin Not found." });
+    }
+
+    const stepId = req.body.stepId
+    const department_assign = await db.workflowassign.findOne(
+      {
+        where: {
+          stepid: stepId,
+        }
+      }
+    );
+
+    const assignes = await db.assignee.findAll({
+      where: {
+        departmentid: department_assign.departmentid,
+      }
+    })
+
+    res.status(200).send(assignes)
+  } catch (err) {
+    res.status(500).send({ message: err.message })
+  }
+};
+
+
+
+// const getOneDepartm = async (req, res) => {
+//   try {
+//     const admin = db.admin.findOne({
+//       where: {
+//         adminToken: req.body.adminToken,
+//       }
+//     });
+
+//     if (!admin) {
+//       return res.status(404).send({ message: "Admin Not found." });
+//     }
+
+
+//   }
+//   catch (err) {
+//     res.status(500).send({ message: err.message });
+//   }
+// };
+
 
 module.exports = {
   register,
   login,
   userregister,
   getAllworkflow,
+  getAlldepartment,
+  workFlowSteps,
+  getAssigne,
   //professional password
   forgotpassword,
   resetpassword,
